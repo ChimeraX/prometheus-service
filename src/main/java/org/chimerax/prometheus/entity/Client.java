@@ -22,6 +22,9 @@ public class Client {
     private long id;
 
     @Column(unique = true)
+    private String name;
+
+    @Column(unique = true)
     private String clientId;
 
     private String secret;
@@ -32,6 +35,4 @@ public class Client {
             joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
     @Enumerated(EnumType.STRING)
     private Set<Scope> scope;
-
-    private String redirectURI;
 }
