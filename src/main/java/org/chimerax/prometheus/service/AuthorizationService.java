@@ -32,6 +32,7 @@ public class AuthorizationService {
     private ClientRepository clientRepository;
     private GrantedAccessRepository grantedAccessRepository;
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
     private JWTServiceHelper jwtServiceHelper;
     private PasswordEncoder passwordEncoder;
 

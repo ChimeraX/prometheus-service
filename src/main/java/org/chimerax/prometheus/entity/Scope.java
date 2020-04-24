@@ -8,10 +8,18 @@ package org.chimerax.prometheus.entity;
 
 public enum Scope {
 
+    // username, firstName, lastName, email, profilePicture
     PROFILE,
+
+    // phoneNumber, country
     CONTACT,
+
     FILES,
+
+    // creditCards and billingAddresses
     BILLING,
+
+    // full authorities
     USER,
     ;
 

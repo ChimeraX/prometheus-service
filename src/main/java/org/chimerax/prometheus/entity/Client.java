@@ -22,6 +22,9 @@ public class Client {
     private long id;
 
     @Column(unique = true)
+    private String name;
+
+    @Column(unique = true)
     private String clientId;
 
     private String secret;
