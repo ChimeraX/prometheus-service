@@ -2,12 +2,15 @@ package org.chimerax.prometheus.security;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Singular;
 import org.chimerax.prometheus.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Silviu-Mihnea Cucuiet
@@ -22,8 +25,16 @@ public class UserDetailsImpl implements UserDetails {
     private String username;
     private String password;
     private List<GrantedAuthority> authorities;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-    private boolean enabled;
+
+    @Builder.Default
+    private boolean accountNonExpired = true;
+
+    @Builder.Default
+    private boolean accountNonLocked = true;
+
+    @Builder.Default
+    private boolean credentialsNonExpired = true;
+
+    @Builder.Default
+    private boolean enabled = true;
 }

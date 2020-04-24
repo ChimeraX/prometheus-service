@@ -1,5 +1,6 @@
 package org.chimerax.prometheus.controller;
 
+import lombok.AllArgsConstructor;
 import org.chimerax.prometheus.api.authorization.AuthorizationCodeRequest;
 import org.chimerax.prometheus.api.authorization.AuthorizationCodeResponse;
 import org.chimerax.prometheus.api.authorization.AuthorizationTokenRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/oauth")
+@AllArgsConstructor
 public class AuthorizationController {
 
     private AuthorizationService authorizationService;
@@ -32,6 +34,6 @@ public class AuthorizationController {
     @PostMapping("/token")
     public ResponseEntity<AuthorizationTokenResponse> token(@RequestBody final AuthorizationTokenRequest request) {
         final String token = authorizationService.token(request.getClientId(), request.getSecret(), request.getCode());
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(new AuthorizationTokenResponse(token));
     }
 }

@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -48,10 +50,10 @@ public class JWTServiceHelper {
     }
 
     public String generateToken(final UserDetails userDetails) {
-        return generateToken(userDetails, null);
+        return generateToken(userDetails, new HashMap<>());
     }
 
-    public String generateToken(final UserDetails userDetails, final String audience) {
+    public String generateToken(final UserDetails userDetails, final Map<String, Object> extra) {
         final Instant now = Instant.now();
         final Instant expiration = now.plusSeconds(10 * 60 * 60);
         val authorities = userDetails.getAuthorities()
@@ -60,10 +62,10 @@ public class JWTServiceHelper {
                 .collect(Collectors.toList());
         return Jwts.builder()
                 .claim(AUTHORITIES, authorities)
+                .addClaims(extra)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(expiration))
-                .setAudience(audience)
                 .signWith(SignatureAlgorithm.HS256, signingKey)
                 .compact();
     }

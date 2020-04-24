@@ -32,6 +32,4 @@ public class Client {
             joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
     @Enumerated(EnumType.STRING)
     private Set<Scope> scope;
-
-    private String redirectURI;
 }

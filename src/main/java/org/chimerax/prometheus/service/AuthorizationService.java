@@ -13,6 +13,7 @@ import org.chimerax.prometheus.security.UserDetailsImpl;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -32,6 +33,7 @@ public class AuthorizationService {
     private GrantedAccessRepository grantedAccessRepository;
     private UserRepository userRepository;
     private JWTServiceHelper jwtServiceHelper;
+    private PasswordEncoder passwordEncoder;
 
     public String authorize(final String clientId, final List<Scope> scope) {
         // client
@@ -70,7 +72,7 @@ public class AuthorizationService {
         val clientScope = client.getScope();
 
         for (final Scope scope : scopes) {
-            if (clientScope.contains(scope)) {
+            if (!clientScope.contains(scope)) {
                 malicious.add(scope);
             }
         }
@@ -107,7 +109,7 @@ public class AuthorizationService {
     }
 
     private void checkClientSecret(final Client client, final String secret) {
-        if (!client.getSecret().equals(secret)) {
+        if (!passwordEncoder.matches(secret, client.getSecret())) {
             throw new UnauthorizedException("Bad client secret");
         }
     }
