@@ -29,12 +29,12 @@ public class JWTServiceHelper {
 
     private static final String AUTHORITIES = "auth";
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.token.secret:signingKey}")
     private String signingKey;
 
-    public Claims extractAllClaims(final String token) {
-        return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody();
-    }
+
+    @Value("${jwt.token.validity:1800}")
+    private long validity;
 
     public UserDetails extractUser(final String token) {
         final Claims claims = extractAllClaims(token);
@@ -49,13 +49,20 @@ public class JWTServiceHelper {
                 .build();
     }
 
+    private Claims extractAllClaims(final String token) {
+        return Jwts.parser()
+                .setSigningKey(signingKey)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
     public String generateToken(final UserDetails userDetails) {
         return generateToken(userDetails, new HashMap<>());
     }
 
     public String generateToken(final UserDetails userDetails, final Map<String, Object> extra) {
         final Instant now = Instant.now();
-        final Instant expiration = now.plusSeconds(10 * 60 * 60);
+        final Instant expiration = now.plusSeconds(validity);
         val authorities = userDetails.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)

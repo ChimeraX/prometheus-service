@@ -34,7 +34,6 @@ public class AuthorizationService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private JWTServiceHelper jwtServiceHelper;
-    private PasswordEncoder passwordEncoder;
 
     public String authorize(final String clientId, final List<Scope> scope) {
         // client
