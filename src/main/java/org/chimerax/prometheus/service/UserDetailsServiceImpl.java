@@ -1,6 +1,7 @@
-package org.chimerax.prometheus.security;
+package org.chimerax.prometheus.service;
 
 import lombok.AllArgsConstructor;
+import org.chimerax.common.security.jwt.UserDetailsImpl;
 import org.chimerax.prometheus.entity.Authority;
 import org.chimerax.prometheus.entity.User;
 import org.chimerax.prometheus.repository.UserRepository;
@@ -28,10 +29,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
+        final Optional<User> userOptional = userRepository.findByEmail(username);
         final User user = userOptional.orElseThrow(() -> new UsernameNotFoundException(username));
         return UserDetailsImpl.builder()
-                .username(user.getUsername())
+                .username(user.getEmail())
                 .password(user.getPassword())
                 .authorities(AUTHORITIES)
                 .build();

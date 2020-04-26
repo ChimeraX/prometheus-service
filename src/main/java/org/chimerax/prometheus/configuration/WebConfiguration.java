@@ -1,7 +1,7 @@
 package org.chimerax.prometheus.configuration;
 
 import lombok.AllArgsConstructor;
-import org.chimerax.prometheus.security.JWTFilter;
+import org.chimerax.common.security.jwt.JWTFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,9 +34,8 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .antMatchers("/authenticate").permitAll()
-                .antMatchers("/oauth/token").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/oauth/token", "/oauth/exchange").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

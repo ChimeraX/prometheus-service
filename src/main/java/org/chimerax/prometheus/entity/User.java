@@ -25,14 +25,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String username;
-
     private String firstName;
 
     private String lastName;
 
     private String password;
 
+    @Column(unique = true, nullable = false, updatable = false)
     private String email;
 
     private String profilePicture;

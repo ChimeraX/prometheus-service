@@ -16,7 +16,8 @@ public enum Authority implements GrantedAuthority {
 
     USER(Scope.USER),
     READ_PROFILE(Scope.PROFILE),
-    READ_CONTACTS(Scope.CONTACT),
+    READ_CONTACT(Scope.CONTACT),
+    READ_CONTACTS(Scope.CONTACTS),
     READ_BILLING(Scope.BILLING),
     READ_FILES(Scope.FILES),
     WRITE_FILES(Scope.FILES),

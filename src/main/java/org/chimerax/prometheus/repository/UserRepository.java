@@ -1,6 +1,6 @@
 package org.chimerax.prometheus.repository;
 
-import org.chimerax.commonservice.api.repository.ChimeraXRepository;
+import org.chimerax.common.repository.ChimeraXRepository;
 import org.chimerax.prometheus.entity.User;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,8 +13,8 @@ import java.util.Optional;
  */
 public interface UserRepository extends ChimeraXRepository<Long, User> {
 
-    @Query("select user from User user where user.email=:username or user.username=:username")
-    Optional<User> findByUsernameOrEmail(final String username);
 
-    Optional<User> findByUsername(final String username);
+    Optional<User> findByEmail(final String email);
+
+    boolean existsByEmail(final String email);
 }

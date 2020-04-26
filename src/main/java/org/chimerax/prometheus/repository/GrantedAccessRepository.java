@@ -1,6 +1,6 @@
 package org.chimerax.prometheus.repository;
 
-import org.chimerax.commonservice.api.repository.ChimeraXRepository;
+import org.chimerax.common.repository.ChimeraXRepository;
 import org.chimerax.prometheus.entity.GrantedAccess;
 
 import java.util.List;

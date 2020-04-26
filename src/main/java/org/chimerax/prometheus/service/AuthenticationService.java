@@ -1,8 +1,12 @@
 package org.chimerax.prometheus.service;
 
 import lombok.AllArgsConstructor;
-import org.chimerax.prometheus.api.exception.UnauthorizedException;
-import org.chimerax.prometheus.security.JWTServiceHelper;
+import org.chimerax.common.exception.UnauthorizedException;
+import org.chimerax.common.security.jwt.JWTService;
+import org.chimerax.common.security.jwt.JWTServiceHelper;
+import org.chimerax.common.security.jwt.JWTServiceHelperFactory;
+import org.chimerax.prometheus.entity.SigningKey;
+import org.chimerax.prometheus.repository.SigningKeyRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * Author: Silviu-Mihnea Cucuiet
@@ -23,7 +29,7 @@ public class AuthenticationService {
 
     private AuthenticationManager authenticationManager;
     private UserDetailsService userDetailsService;
-    private JWTServiceHelper jwtServiceHelper;
+    private JWTService jwtService;
 
 
     public String authenticate(final String username, final String password) {
@@ -43,6 +49,6 @@ public class AuthenticationService {
 
     private String _generateToken(final String username) {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        return jwtServiceHelper.generateToken(userDetails);
+        return jwtService.generateToken(userDetails, new HashMap<>(), new HashMap<>());
     }
 }
