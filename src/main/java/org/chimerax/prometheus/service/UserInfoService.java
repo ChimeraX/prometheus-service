@@ -1,19 +1,25 @@
 package org.chimerax.prometheus.service;
 
 import lombok.AllArgsConstructor;
+import lombok.val;
 import org.chimerax.common.exception.NotFoundException;
 import org.chimerax.prometheus.api.dto.UserInfoDTO;
 import org.chimerax.prometheus.entity.Authority;
 import org.chimerax.prometheus.entity.User;
 import org.chimerax.prometheus.repository.UserRepository;
+import org.chimerax.prometheus.service.userinfo.ContactHandler;
+import org.chimerax.prometheus.service.userinfo.ProfileHandler;
+import org.chimerax.prometheus.service.userinfo.UserInfoHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import javax.annotation.PostConstruct;
+import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 /**
@@ -28,38 +34,34 @@ public class UserInfoService {
 
     private UserRepository userRepository;
 
+    private final Map<Authority, UserInfoHandler> handlers = new HashMap<>();
+
+
     public UserInfoDTO getUserInfo() {
         final UserDetails actingUser = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         final Optional<User> userOptional = userRepository.findByEmail(actingUser.getUsername());
         final User user = userOptional.orElseThrow(() -> new NotFoundException(actingUser.getUsername()));
 
-        final Set<String> authorities = actingUser.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toSet());
-
         final UserInfoDTO userInfo = new UserInfoDTO();
 
-        if(authorities.contains(Authority.READ_PROFILE.getAuthority())) {
-            handleProfile(userInfo, user);
+        val authorities = actingUser.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        for (val authority : handlers.keySet()) {
+            if (authorities.contains(authority.getAuthority())) {
+                handlers.get(authority).handle(userInfo, user);
+            }
         }
 
-        if(authorities.contains(Authority.READ_CONTACT.getAuthority())) {
-            handleContact(userInfo, user);
-        }
 
         return userInfo;
     }
 
-    public void handleContact(final UserInfoDTO userInfo, final User user) {
-        userInfo.setPhoneNumber(user.getPhoneNumber());
-    }
-
-    public void handleProfile(final UserInfoDTO userInfo, final User user) {
-        userInfo
-                .setProfilePicture(user.getProfilePicture())
-                .setFirstName(user.getFirstName())
-                .setLastName(user.getLastName())
-                .setEmail(user.getEmail());
+    @Autowired
+    private void postConstruct(final ApplicationContext context) {
+        val beans = context.getBeansOfType(UserInfoHandler.class);
+        beans.values().forEach((handler) -> handlers.put(handler.getRequiredAuthority(), handler));
     }
 }

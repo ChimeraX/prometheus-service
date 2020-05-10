@@ -15,6 +15,8 @@ public class ClientConverter {
     public ClientDTO convertToClientDTO(final Client client) {
 
         return new ClientDTO()
+                .setName(client.getName())
+                .setLogo(client.getLogo())
                 .setClientId(client.getClientId())
                 .setScope(client.getScope());
 

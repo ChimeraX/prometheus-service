@@ -27,6 +27,8 @@ public class Client {
     @Column(unique = true)
     private String clientId;
 
+    private String logo;
+
     private String secret;
 
     @ElementCollection(targetClass = Scope.class)

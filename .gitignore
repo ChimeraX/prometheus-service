@@ -32,3 +32,4 @@ out/
 .vscode/
 src/main/resources/application-dev.properties
 src/main/java/org/chimerax/prometheus/configuration/MockDataRunner.java
+docker-compose.yml

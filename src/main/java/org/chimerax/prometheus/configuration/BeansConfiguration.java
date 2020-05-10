@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Author: Silviu-Mihnea Cucuiet
@@ -39,5 +41,20 @@ public class BeansConfiguration {
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "POST","PUT", "DELETE", "PATCH")
+                        .allowedHeaders("Authorization", "Content-type")
+                        .allowCredentials(false)
+                        .maxAge(3600);
+            }
+        };
     }
 }

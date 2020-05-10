@@ -2,7 +2,6 @@ package org.chimerax.prometheus.api.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.chimerax.prometheus.entity.Authority;
 import org.chimerax.prometheus.entity.Scope;
 
 import java.util.Set;
@@ -16,6 +15,10 @@ import java.util.Set;
 @Data
 @Accessors(chain = true)
 public class ClientDTO {
+
+    private String name;
+
+    private String logo;
 
     private String clientId;
 
