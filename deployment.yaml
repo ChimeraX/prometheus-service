@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-service
+  labels:
+    app: prometheus-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-service
+  template:
+    metadata:
+      labels:
+        app: prometheus-service
+    spec:
+      containers:
+      - name: prometheus-service-container
+        image: gcr.io/chimera-x/prometheus-service
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DATABASE_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              name: config-prometheus-service
+              key: DATABASE_DRIVER
+        - name: DATABASE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: config-prometheus-service
+              key: DATABASE_HOST
+        - name: DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: config-prometheus-service
+              key: DATABASE_PORT
+        - name: DATABASE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: config-prometheus-service
+              key: DATABASE_USERNAME
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: config-prometheus-service
+              key: DATABASE_PASSWORD

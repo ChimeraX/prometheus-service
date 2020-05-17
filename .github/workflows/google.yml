@@ -33,8 +33,6 @@ jobs:
         service_account_key: ${{ secrets.GKE_KEY }}
 
     - run: |
-        # Set up docker to authenticate
-        # via gcloud command-line tool.
         gcloud auth configure-docker
 
     - name: Grant execute permission for gradlew
@@ -65,4 +63,5 @@ jobs:
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_SHA}
         ./kustomize build . | kubectl apply -f -
-        kubectl rollout restart deployment/$DEPLOYMENT_NAME
+      # kubectl rollout restart deployment/$DEPLOYMENT_NAME
+        kubectl create deployment -f deployment.yaml
