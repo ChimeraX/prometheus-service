@@ -45,3 +45,13 @@ spec:
             configMapKeyRef:
               name: config-prometheus-service
               key: DATABASE_PASSWORD
+        - name: JWT_TOKEN_VALIDITY
+          valueFrom:
+            configMapKeyRef:
+              name: config-prometheus-service
+              key: JWT_TOKEN_VALIDITY
+        - name: JWT_TOKEN_ISSUER
+          valueFrom:
+            configMapKeyRef:
+              name: config-prometheus-service
+              key: JWT_TOKEN_ISSUER
