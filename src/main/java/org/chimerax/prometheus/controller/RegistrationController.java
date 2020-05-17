@@ -29,6 +29,6 @@ public class RegistrationController {
     @PostMapping
     public ResponseEntity<RegistrationResponse> register(@RequestBody final RegistrationRequest request) {
         registrationService.register(request);
-        return ResponseEntity.ok(new RegistrationResponse());
+        return ResponseEntity.ok().build();
     }
 }

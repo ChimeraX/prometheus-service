@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.chimerax.prometheus.api.authorization.*;
 import org.chimerax.prometheus.api.dto.UserInfoDTO;
 import org.chimerax.prometheus.service.AuthorizationService;
-import org.chimerax.prometheus.service.UserInfoService;
+import org.chimerax.prometheus.service.userinfo.UserInfoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;

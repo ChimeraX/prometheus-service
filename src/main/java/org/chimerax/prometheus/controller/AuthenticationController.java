@@ -22,7 +22,7 @@ public class AuthenticationController {
 
     @PostMapping
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody final AuthenticationRequest request) {
-        final  String token = authenticationService.authenticate(request.getUsername(), request.getPassword());
+        final  String token = authenticationService.authenticate(request.getEmail(), request.getPassword());
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 }

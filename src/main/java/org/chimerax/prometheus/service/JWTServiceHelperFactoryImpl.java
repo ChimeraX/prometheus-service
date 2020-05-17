@@ -6,6 +6,7 @@ import org.chimerax.common.security.jwt.JWTServiceHelper;
 import org.chimerax.common.security.jwt.JWTServiceHelperFactory;
 import org.chimerax.prometheus.entity.SigningKey;
 import org.chimerax.prometheus.repository.SigningKeyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

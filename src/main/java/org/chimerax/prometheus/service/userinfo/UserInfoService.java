@@ -1,4 +1,4 @@
-package org.chimerax.prometheus.service;
+package org.chimerax.prometheus.service.userinfo;
 
 import lombok.AllArgsConstructor;
 import lombok.val;
@@ -7,9 +7,6 @@ import org.chimerax.prometheus.api.dto.UserInfoDTO;
 import org.chimerax.prometheus.entity.Authority;
 import org.chimerax.prometheus.entity.User;
 import org.chimerax.prometheus.repository.UserRepository;
-import org.chimerax.prometheus.service.userinfo.ContactHandler;
-import org.chimerax.prometheus.service.userinfo.ProfileHandler;
-import org.chimerax.prometheus.service.userinfo.UserInfoHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,9 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
-import java.util.function.BiConsumer;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**

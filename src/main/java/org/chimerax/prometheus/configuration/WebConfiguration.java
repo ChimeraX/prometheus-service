@@ -34,6 +34,8 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .antMatchers("/authenticate").permitAll()
+                .antMatchers("/register").permitAll()
+                .antMatchers("/recover").permitAll()
                 .antMatchers("/oauth/token", "/oauth/exchange").permitAll()
                 .anyRequest().authenticated()
                 .and()

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class EmailInUseException extends RegistrationException {
 
     public EmailInUseException() {
+        this("Email already in use");
     }
 
     public EmailInUseException(String message) {

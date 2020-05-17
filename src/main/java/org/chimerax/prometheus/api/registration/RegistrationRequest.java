@@ -3,6 +3,7 @@ package org.chimerax.prometheus.api.registration;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.chimerax.prometheus.api.dto.CreateDocumentDTO;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,5 +30,7 @@ public class RegistrationRequest {
     private String password;
 
     private String confirmPassword;
+
+    private CreateDocumentDTO profilePicture;
 
 }
