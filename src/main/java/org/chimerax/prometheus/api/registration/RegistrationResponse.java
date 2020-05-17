@@ -1,6 +1,5 @@
 package org.chimerax.prometheus.api.registration;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

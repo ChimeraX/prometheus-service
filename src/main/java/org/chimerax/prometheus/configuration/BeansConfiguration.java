@@ -2,8 +2,6 @@ package org.chimerax.prometheus.configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.chimerax.common.security.jwt.JWTFilter;
-import org.chimerax.common.security.jwt.JWTServiceHelper;
 import org.chimerax.prometheus.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

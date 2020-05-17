@@ -5,7 +5,10 @@ import org.chimerax.prometheus.api.authentication.AuthenticationRequest;
 import org.chimerax.prometheus.api.authentication.AuthenticationResponse;
 import org.chimerax.prometheus.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Author: Silviu-Mihnea Cucuiet

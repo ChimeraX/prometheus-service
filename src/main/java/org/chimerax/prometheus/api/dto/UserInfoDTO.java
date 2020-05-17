@@ -3,8 +3,6 @@ package org.chimerax.prometheus.api.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;
-
 /**
  * Author: Silviu-Mihnea Cucuiet
  * Date: 26-Apr-20

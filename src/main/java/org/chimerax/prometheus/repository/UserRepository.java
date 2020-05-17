@@ -2,7 +2,6 @@ package org.chimerax.prometheus.repository;
 
 import org.chimerax.common.repository.ChimeraXRepository;
 import org.chimerax.prometheus.entity.User;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 

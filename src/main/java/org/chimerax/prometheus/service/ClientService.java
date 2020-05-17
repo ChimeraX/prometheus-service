@@ -3,7 +3,6 @@ package org.chimerax.prometheus.service;
 import lombok.AllArgsConstructor;
 import org.chimerax.prometheus.api.dto.ClientConverter;
 import org.chimerax.prometheus.api.dto.ClientDTO;
-import org.chimerax.prometheus.entity.Client;
 import org.chimerax.prometheus.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 

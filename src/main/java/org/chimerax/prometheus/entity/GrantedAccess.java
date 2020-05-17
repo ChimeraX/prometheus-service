@@ -2,7 +2,6 @@ package org.chimerax.prometheus.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.HashSet;
