@@ -10,6 +10,7 @@ env:
   GKE_PROJECT: chimera-x
   GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
   GITHUB_SHA: ${{ github.sha }}
+  GITHUB_USERNAME: silviumihnea
   GITHUB_TOKEN: ${{ secrets.CURL_TOKEN }}
   GKE_ZONE: europe-west1-b
   GKE_CLUSTER: chimera-x-cluster
