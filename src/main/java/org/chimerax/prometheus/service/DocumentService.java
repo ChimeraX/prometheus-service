@@ -20,7 +20,7 @@ public class DocumentService {
     private RestTemplate restTemplate;
 
     public String save(final CreateDocumentDTO document) {
-        URI location = restTemplate.postForLocation("http://localhost:632/documents", document);
+        URI location = restTemplate.postForLocation("http://hades/documents", document);
         assert location != null;
         return location.toString();
     }

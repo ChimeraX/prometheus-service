@@ -5,6 +5,7 @@ import lombok.val;
 import org.chimerax.common.exception.NotFoundException;
 import org.chimerax.common.exception.UnauthorizedException;
 import org.chimerax.common.security.jwt.JWTService;
+import org.chimerax.common.security.jwt.JWTToken;
 import org.chimerax.common.security.jwt.UserDetailsImpl;
 import org.chimerax.prometheus.entity.*;
 import org.chimerax.prometheus.repository.ClientRepository;
@@ -50,7 +51,10 @@ public class AuthorizationService {
                 .collect(Collectors.toSet());
 
         // username
-        final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        final JWTToken token = (JWTToken) SecurityContextHolder.getContext().getAuthentication();
+        final String username = token.getName();
+        final JWTToken.Details details = token.getDetails();
+        details.getCookies();
 
         // code
         final String code = UUID.randomUUID().toString();

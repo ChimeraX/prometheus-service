@@ -55,3 +55,8 @@ spec:
             configMapKeyRef:
               name: config-prometheus-service
               key: JWT_TOKEN_ISSUER
+        - name: EUREKA_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-prometheus-service
+              key: EUREKA_SERVER_URL
