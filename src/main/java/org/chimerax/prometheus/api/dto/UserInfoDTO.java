@@ -21,7 +21,4 @@ public class UserInfoDTO {
 
     private String profilePicture;
 
-    private String country;
-
-    private String phoneNumber;
 }

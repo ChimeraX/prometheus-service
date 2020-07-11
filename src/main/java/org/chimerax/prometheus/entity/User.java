@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Class that represents a customer information
@@ -23,6 +25,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(unique = true, updatable = false)
+    private String userId;
+
     private String firstName;
 
     private String lastName;
@@ -34,9 +39,14 @@ public class User {
 
     private String profilePicture;
 
-    private String country;
-
-    private String phoneNumber;
-
     private boolean active;
+
+    @Column(name = "created_at", updatable = false )
+    private long createdAt;
+
+    @PrePersist
+    void prePersist() {
+        createdAt = new Date().getTime();
+        userId = UUID.randomUUID().toString().replace("-", "");
+    }
 }

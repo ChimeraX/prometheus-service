@@ -7,10 +7,12 @@ import org.chimerax.common.exception.UnauthorizedException;
 import org.chimerax.common.security.jwt.JWTService;
 import org.chimerax.common.security.jwt.JWTToken;
 import org.chimerax.common.security.jwt.UserDetailsImpl;
+import org.chimerax.prometheus.api.dto.UserInfoDTO;
 import org.chimerax.prometheus.entity.*;
 import org.chimerax.prometheus.repository.ClientRepository;
 import org.chimerax.prometheus.repository.GrantedAccessRepository;
 import org.chimerax.prometheus.repository.UserRepository;
+import org.chimerax.prometheus.service.userinfo.UserInfoService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,8 +30,9 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class AuthorizationService {
+public class OAuthService {
 
+    private UserInfoService userInfoService;
     private ClientRepository clientRepository;
     private GrantedAccessRepository grantedAccessRepository;
     private UserRepository userRepository;
@@ -148,6 +151,28 @@ public class AuthorizationService {
         return code;
     }
 
+
+    public Map<String, UserInfoDTO> findUsers(final String clientId, final String secret, final List<String> usernames) {
+        // client
+        final Optional<Client> clientOptional = clientRepository.findByClientId(clientId);
+        final Client client = clientOptional
+                .orElseThrow(() -> new NotFoundException("No client: " + clientId));
+        checkClientCredentials(client, secret);
+
+        final Map<String, UserInfoDTO> userInfos = new HashMap<>();
+
+        for (String username : usernames) {
+            grantedAccessRepository.findByClientIdAndUsername(clientId, username).ifPresent(grantedAccess -> {
+                val authorities = grantedAccess.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList());
+                userInfos.put(username, userInfoService.getUserInfo(authorities, username));
+            });
+        }
+
+        return userInfos;
+    }
+
     private void filterMaliciousScope(final Client client, final Collection<Scope> scopes) {
         final List<Scope> malicious = new ArrayList<>();
 
@@ -197,5 +222,4 @@ public class AuthorizationService {
             throw new UnauthorizedException("User is not active");
         }
     }
-
 }

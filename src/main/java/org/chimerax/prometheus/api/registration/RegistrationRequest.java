@@ -30,4 +30,6 @@ public class RegistrationRequest {
 
     private CreateDocumentDTO profilePicture;
 
+    private String code;
+
 }

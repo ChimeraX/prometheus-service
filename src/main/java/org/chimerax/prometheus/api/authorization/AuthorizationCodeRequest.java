@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.chimerax.prometheus.entity.Scope;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -16,6 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthorizationCodeRequest {
+
+    @NotBlank
     private String clientId;
+
+
     private List<Scope> scope;
 }

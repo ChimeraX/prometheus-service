@@ -4,6 +4,7 @@ import org.chimerax.common.repository.ChimeraXRepository;
 import org.chimerax.prometheus.entity.GrantedAccess;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Author: Silviu-Mihnea Cucuiet
@@ -13,4 +14,6 @@ import java.util.Optional;
 public interface GrantedAccessRepository extends ChimeraXRepository<Long, GrantedAccess> {
 
     Optional<GrantedAccess> findByCode(final String code);
+
+    Optional<GrantedAccess> findByClientIdAndUsername(final String clientId, final String username);
 }

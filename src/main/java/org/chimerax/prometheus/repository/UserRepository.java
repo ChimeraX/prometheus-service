@@ -15,5 +15,7 @@ public interface UserRepository extends ChimeraXRepository<Long, User> {
 
     Optional<User> findByEmail(final String email);
 
+    Optional<User> findByUserId(final String userId);
+
     boolean existsByEmail(final String email);
 }

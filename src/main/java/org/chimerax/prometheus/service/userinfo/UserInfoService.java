@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,23 +38,34 @@ public class UserInfoService {
     public UserInfoDTO getUserInfo() {
         final UserDetails actingUser = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        final Optional<User> userOptional = userRepository.findByEmail(actingUser.getUsername());
-        final User user = userOptional.orElseThrow(() -> new NotFoundException(actingUser.getUsername()));
+        return getUserInfo(actingUser, actingUser.getUsername());
+    }
+
+    public UserInfoDTO getUserInfo(final String email) {
+        final UserDetails actingUser = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        return getUserInfo(actingUser, email);
+    }
+
+    public UserInfoDTO getUserInfo(final List<String> authorities, final String email) {
+        final Optional<User> userOptional = userRepository.findByEmail(email);
+        final User user = userOptional.orElseThrow(() -> new NotFoundException(email));
 
         final UserInfoDTO userInfo = new UserInfoDTO();
-
-        val authorities = actingUser.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
 
         for (val authority : handlers.keySet()) {
             if (authorities.contains(authority.getAuthority())) {
                 handlers.get(authority).handle(userInfo, user);
             }
         }
-
-
         return userInfo;
+    }
+
+    private UserInfoDTO getUserInfo(final UserDetails actingUser, final String email) {
+        val authorities = actingUser.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+        return getUserInfo(authorities, email);
     }
 
     @Autowired

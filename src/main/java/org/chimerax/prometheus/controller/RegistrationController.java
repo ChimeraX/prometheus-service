@@ -25,7 +25,11 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<RegistrationResponse> register(@RequestBody final RegistrationRequest request) {
-        registrationService.register(request);
-        return ResponseEntity.ok().build();
+        boolean success = registrationService.register(request);
+        if (success) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

@@ -20,4 +20,10 @@ public class CreateDocumentDTO {
     private String data;
 
     private long size;
+
+    private Long folderId;
+
+    private Boolean isPublic = true;
+
+
 }

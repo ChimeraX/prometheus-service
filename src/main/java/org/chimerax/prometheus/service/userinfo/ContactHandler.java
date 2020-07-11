@@ -16,7 +16,6 @@ public class ContactHandler implements UserInfoHandler {
 
     @Override
     public void handle(UserInfoDTO userInfo, User user) {
-        userInfo.setPhoneNumber(user.getPhoneNumber());
     }
 
     @Override

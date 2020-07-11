@@ -2,7 +2,10 @@ package org.chimerax.prometheus.configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.val;
+import org.chimerax.prometheus.repository.UserRepository;
 import org.chimerax.prometheus.service.UserDetailsServiceImpl;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +13,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Author: Silviu-Mihnea Cucuiet
@@ -44,24 +45,23 @@ public class BeansConfiguration {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
-                        .allowedHeaders("Authorization", "Content-type")
-                        .allowCredentials(false)
-                        .maxAge(3600);
-            }
-        };
-    }
-
-    @Bean
     @LoadBalanced
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        return new CommandLineRunner() {
+            @Override
+            public void run(String... args) throws Exception {
+                val users = userRepository.findAll();
+                users.forEach(user -> {
+                    user.setPassword(passwordEncoder.encode("password1234"));
+                });
+                userRepository.saveAll(users);
+            }
+        };
     }
 
 }
