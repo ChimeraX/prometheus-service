@@ -50,18 +50,4 @@ public class BeansConfiguration {
         return new RestTemplate();
     }
 
-    @Bean
-    public CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        return new CommandLineRunner() {
-            @Override
-            public void run(String... args) throws Exception {
-                val users = userRepository.findAll();
-                users.forEach(user -> {
-                    user.setPassword(passwordEncoder.encode("password1234"));
-                });
-                userRepository.saveAll(users);
-            }
-        };
-    }
-
 }
